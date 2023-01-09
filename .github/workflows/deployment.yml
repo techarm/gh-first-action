@@ -6,7 +6,7 @@
 #
 # Avaiable Events: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
 name: Deployment Project
-on: push
+on: [push, workflow_dispatch]
 jobs:
   test:
     runs-on: ubuntu-latest
