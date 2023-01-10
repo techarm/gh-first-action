@@ -16,7 +16,7 @@ jobs:
 ```
 
 ## 2. Deployment Project (Multiple Jobs In Sequential)
-[.github/workflows/first-action.yml](https://github.com/techarm/github-actions/blob/second-action/.github/workflows/deployment.yml)
+[.github/workflows/deployment.yml](https://github.com/techarm/github-actions/blob/second-action/.github/workflows/deployment.yml)
 ```yml
 name: Deployment Project
 on: [push, workflow_dispatch]
@@ -63,4 +63,76 @@ jobs:
     steps:
       - name: Output Github context
         run: echo "${{ toJSON(github) }}"
+```
+
+## 4. Job Artifacts & Outputs & Cache
+[.github/workflows/deployment.yml](https://github.com/techarm/github-actions/blob/third-action/.github/workflows/deployment.yml)
+
+### Name of action used
+- actions/upload-artifact@v3
+- actions/download-artifact@v3
+- actions/cache@v3
+
+```yml
+name: Action 3 Deployment Project
+on:
+  push:
+    branches:
+      - third-action
+    # paths-ignore:
+    #   - '.github/workflows/**'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      script-file: ${{ steps.publish.outputs.script-file }}
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Publish JS filename
+        id: publish
+        run: find dist/assets/*.js -type f -execdir echo 'script-file={}' >> $GITHUB_OUTPUT ';'
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist-files
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+      - name: Output contents
+        run: ls -al
+      - name: Output filename
+        run: echo ${{ needs.build.outputs.script-file }}
+      - name: Deploy
+        run: echo "Deploying..."
 ```
