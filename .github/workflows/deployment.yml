@@ -10,8 +10,8 @@ on:
   push:
     branches:
       - third-action
-    paths-ignore:
-      - '.github/workflows/**'
+    # paths-ignore:
+    #   - '.github/workflows/**'
 jobs:
   test:
     runs-on: ubuntu-latest
