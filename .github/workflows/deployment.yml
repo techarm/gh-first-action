@@ -5,7 +5,7 @@
 #   workflow_dispatch, repository_dispatch, schedule, workflow_call
 #
 # Avaiable Events: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows
-name: Deployment Project
+name: Action 3 Deployment Project
 on:
   push:
     branches:
@@ -36,13 +36,19 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          # path: dist
-          path: |
-            dist
-            README.md
+          path: dist
+          # path: |
+          #   dist
+          #   README.md
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Get build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
+      - name: Output contents
+        run: ls -al
       - name: Deploy
         run: echo "Deploying ..."
