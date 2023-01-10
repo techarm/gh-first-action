@@ -17,6 +17,11 @@ jobs:
 
 ## 2. Deployment Project (Multiple Jobs In Sequential)
 [.github/workflows/deployment.yml](https://github.com/techarm/github-actions/blob/second-action/.github/workflows/deployment.yml)
+
+### Name of action used
+- [actions/checkout@v3](https://github.com/actions/checkout)
+- [actions/setup-node@v3](https://github.com/actions/setup-node)
+
 ```yml
 name: Deployment Project
 on: [push, workflow_dispatch]
@@ -69,9 +74,9 @@ jobs:
 [.github/workflows/deployment.yml](https://github.com/techarm/github-actions/blob/third-action/.github/workflows/deployment.yml)
 
 ### Name of action used
-- actions/upload-artifact@v3
-- actions/download-artifact@v3
-- actions/cache@v3
+- [actions/upload-artifact@v3](https://github.com/actions/upload-artifact)
+- [actions/download-artifact@v3](https://github.com/actions/download-artifact)
+- [actions/cache@v3](https://github.com/actions/cache)
 
 ```yml
 name: Action 3 Deployment Project
