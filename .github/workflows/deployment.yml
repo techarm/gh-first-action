@@ -9,8 +9,8 @@ jobs:
   test:
     environment: testing
     env:
-      MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_HOST: ${{ vars.MONGODB_HOST }}
+      MONGODB_USERNAME: ${{ vars.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       PORT: 8080
     runs-on: ubuntu-latest
