@@ -141,3 +141,61 @@ jobs:
       - name: Deploy
         run: echo "Deploying..."
 ```
+
+## 5. Using Environment Variables & Secrets
+[.github/workflows/deployment.yml](https://github.com/techarm/github-actions/blob/environment-and-secrets/.github/workflows/deployment.yml)
+- Environment variables: Using `vars` context to access
+- Environment secrets: Using `secrets` context to access
+- Environment variables for a single workflow: Using `env` context or `$NAME` to access.
+
+> Note: By default, Linux runners use the bash shell, can use the syntax $NAME. But if the workflow specified a Windows runner, would use the syntax for PowerShell, $env:NAME
+
+```yml
+name: Environment And Secrets
+on:
+  push:
+    branches:
+      - environment-and-secrets
+env:
+  MONGODB_DB_NAME: gha-demo
+jobs:
+  test:
+    environment: testing
+    env:
+      MONGODB_HOST: ${{ vars.MONGODB_HOST }}
+      MONGODB_USERNAME: ${{ vars.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      PORT: 8080
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-deps-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        run: |
+          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME }}"
+          echo "MONGODB_HOST: ${{ env.MONGODB_HOST }}"
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+          echo "MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        # Only the first line is available
+        run: |
+          echo "MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME }}"
+          echo "MONGODB_HOST: ${{ env.MONGODB_HOST }}"
+          echo "MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+          echo "MONGODB_PASSWORD: ${{ env.MONGODB_PASSWORD }}"
+```
