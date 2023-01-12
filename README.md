@@ -201,6 +201,14 @@ jobs:
 ```
 
 ## 6. Controlling Workflow
+### Special Conditional Functions
+|Function|Description|
+|------------|----------------------------------------------------------|
+|failure()   |returns `true` when any previous step or job failed       |
+|success()   |returns `true` when none of the previous steps have failed|
+|always() 　　  |causes the step to always execute. even when cancelled.   |
+|cancelled() |returns `true` if the workflow has benn cancelled.        |
+  
 [.github/workflows/execution-flow.yml](https://github.com/techarm/github-actions/blob/executionflow/.github/workflows/execution-flow.yml)
 ```yml
 name: Execution Flow
