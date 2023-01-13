@@ -1,4 +1,4 @@
-name: Use Reuse Work Flow
+name: Use Reuse WorkFlow
 on:
   push:
     branches:
@@ -68,7 +68,7 @@ jobs:
           path: dist
   deploy:
     needs: build
-    uses: '.github/workflows/reusable.yml'
+    uses: ./.github/workflows/reusable.yml
     with:
       artifact-name: dist-files
   report:
