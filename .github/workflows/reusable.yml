@@ -7,8 +7,17 @@ on:
         type: string
         required: false
         default: dist
+    secrets:
+      some-secret:
+        required: false
+    outputs:
+      result:
+        description: The result of the deployment operation
+        value: ${{ jobs.deploy.outputs.outcome }}
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.et-result.outputs.my-result }}
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
@@ -17,5 +26,10 @@ jobs:
           name: ${{ inputs.artifact-name }}
       - name: List file
         run: ls -al
+      - name: Print secret text
+        run: echo "some-secret=${{ secret.some-secret }}"
       - name: Output information
         run: echo "Deploying & uploading..."
+      - name: Set result output
+        id: set-result
+        run: echo "my-result=success >> $GITHUB_OUTPUT"
