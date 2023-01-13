@@ -37,5 +37,5 @@ jobs:
       - name: Set result output
         id: set-result
         run: |
-          echo "my-result=success >> $GITHUB_OUTPUT"
-          echo "my-status='200' >> $GITHUB_OUTPUT"
+          echo "my-result=success" >> $GITHUB_OUTPUT
+          echo "my-status='200'" >> $GITHUB_OUTPUT
