@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - executionflow
+    paths-ignore:
+      - '.github/workflows/**'
 jobs:
   build:
     continue-on-error: true

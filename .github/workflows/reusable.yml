@@ -1,0 +1,21 @@
+name: Reusable Depoly
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: The name of the deployable artifact files
+        type: string
+        required: false
+        default: dist
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: List file
+        run: ls -al
+      - name: Output information
+        run: echo "Deploying & uploading..."
