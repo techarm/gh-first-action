@@ -27,7 +27,7 @@ jobs:
       - name: List file
         run: ls -al
       - name: Print secret text
-        run: echo "some-secret=${{ secret.some-secret }}"
+        run: echo "some-secret=${{ secrets.some-secret }}"
       - name: Output information
         run: echo "Deploying & uploading..."
       - name: Set result output
