@@ -14,10 +14,14 @@ on:
       result:
         description: The result of the deployment operation
         value: ${{ jobs.deploy.outputs.outcome }}
+      status:
+        description: The status of the deployment operation
+        value: '200'
 jobs:
   deploy:
     outputs:
-      outcome: ${{ steps.set-result.outputs.my-result }}
+      # outcome: ${{ steps.set-result.outputs.my-result }}
+      outcome: ${{ toJSON(steps.set-result.outputs) }}
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
@@ -32,4 +36,6 @@ jobs:
         run: echo "Deploying & uploading..."
       - name: Set result output
         id: set-result
-        run: echo "my-result=success >> $GITHUB_OUTPUT"
+        run: |
+          echo "my-result=success >> $GITHUB_OUTPUT"
+          echo "my-status='200' >> $GITHUB_OUTPUT"
