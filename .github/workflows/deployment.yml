@@ -7,20 +7,37 @@ env:
   CACHE_KEY: node-deps
   MONGODB_DB_NAME: gha-demo
 jobs:
+  #  test:
+  #     environment: testing
+  #     runs-on: ubuntu-latest
+  #     container:
+  #       image: node:16
+  #     env:
+  #       MONGODB_CONNECTION_PROTOCOL: mongodb
+  #       MONGODB_CLUSTER_ADDRESS: mongodb-srv
+  #       MONGODB_USERNAME: root
+  #       MONGODB_PASSWORD: password
+  #       PORT: 8080
+  #     services:
+  #       mongodb-srv:
+  #         image: mongo
+  #         env:
+  #           MONGO_INITDB_ROOT_USERNAME: root
+  #           MONGO_INITDB_ROOT_PASSWORD: password
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container:
-      image: node:16
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb-srv
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: password
       PORT: 8080
     services:
       mongodb-srv:
         image: mongo
+        ports:
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: password
@@ -35,7 +52,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:$PORT # requires MongoDB Atlas to accept requests from anywhere!
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
       - name: Run tests
         run: npm test
       - name: Output information
