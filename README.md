@@ -486,3 +486,69 @@ jobs:
           echo "Something went wrong"
           echo "${{ toJSON(github) }}"
 ```
+
+## 8. Containers & Services
+### Containers
+- Packages of code + execution environment
+- Great for creating re-usable execution packages & ensuring consistency
+- Example: Sample environment for testing + production
+
+### Containers for Jobs
+- Can run Jobs in pre-defined environments
+- Build your own container images or use public images
+- Great for Jobs that needs extra tools or lots of customization
+
+### Service Containers
+- Extra services can be used by Steps in Jobs
+- Example: Locally running, isolated testing database
+- Based on custom images or public / community images
+
+[.github/workflows/deployment.yml](https://github.com/techarm/github-actions/blob/containers/.github/workflows/deployment.yml)
+```yml
+name: Container Workflow Deployment
+on:
+  push:
+    branches:
+      - containers
+env:
+  CACHE_KEY: node-deps
+  MONGODB_DB_NAME: gha-demo
+jobs:
+  test:
+    environment: testing
+    runs-on: ubuntu-latest
+    env:
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: password
+      PORT: 8080
+    services:
+      mongodb-srv:
+        image: mongo
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: password
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ env.CACHE_KEY }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
+      - name: Run tests
+        run: npm test
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: echo "deploying..."
+```
