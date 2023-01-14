@@ -10,7 +10,12 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Load & Cache dependencies
+        id: cache-deps
         uses: ./.github/actions/cached-deps
+        with:
+          caching: true
+      - name: Output information
+        run: echo "Cache used? >> ${{ steps.cache-deps.outputs.used-cache }}"
       - name: Test code
         id: run-tests
         run: npm run test
@@ -28,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist
+          path: build
   deploy:
     needs: build
     runs-on: ubuntu-latest
