@@ -1,0 +1,19 @@
+name: 'Matching web string'
+description: 'Find a specific text in the response .'
+inputs:
+  url:
+    description: 'Web site URL'
+    required: true
+  match-string:
+    description: 'Matching string'
+    required: true
+outputs:
+  is-match:
+    description: 'Returns a match of type boolean.'
+  result:
+    description: 'Return the matched result.'
+  error:
+    description: 'Return an error message, or no return value if there is no error.'
+runs:
+  using: 'node16'
+  main: 'index.js'
