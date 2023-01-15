@@ -14,12 +14,12 @@ function run() {
         body += chunk;
       });
       res.on('end', function () {
-        const result = body.match(new RegExp(matchString));
+        const result = body.match(new RegExp(matchString, 'g'));
         core.setOutput('is-match', !!result);
         core.setOutput('result', result);
       });
     })
-    .on('error', function (e) {
+    .on('error', function (error) {
       core.setOutput('error', error.message);
       core.setFailed(error.message);
     });
