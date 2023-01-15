@@ -573,6 +573,6 @@ jobs:
 - Either way: Use inputs, set outputs and perform any logic
 
 ### Example
-- Composite: https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/cached-deps
-- JavaScript: https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/web-grep-js
-- Docker: https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/web-grep-docker 
+- Composite: [cached-deps](https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/cached-deps)
+- JavaScript: [web-grep-js](https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/web-grep-js)
+- Docker: [web-grep-docker](https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/web-grep-docker)
