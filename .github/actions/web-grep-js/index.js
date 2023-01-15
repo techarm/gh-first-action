@@ -1,11 +1,11 @@
 const https = require('https');
 const core = require('@actions/core');
-const github = require('@actions/github');
-const exec = require('@actions/exec');
 
 function run() {
   const url = core.getInput('url');
   const matchString = core.getInput('match-string');
+
+  core.notice(`[GET]: ${url}`);
 
   https
     .get(url, function (res) {
@@ -23,8 +23,6 @@ function run() {
       core.setOutput('error', error.message);
       core.setFailed(error.message);
     });
-
-  core.notice('hello from my custom Javascript Action.');
 }
 
 run();
