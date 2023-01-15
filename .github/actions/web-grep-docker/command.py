@@ -9,8 +9,9 @@ def run():
     try:
         res = requests.get(url)
         match_list = re.findall(match_string, res.text)
-        print(f"::set-output name=is-match::{len(match_list) > 0}")
-        print(f"::set-output name=result::{match_list}")
+        print(f'is-match={len(match_list) > 0}', file=gh_output)
+        print(f'result={match_list}', file=gh_output)
+
     except Exception as e:
         print(f"::set-output name=error::{e}")
 
