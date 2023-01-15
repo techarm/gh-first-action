@@ -15,5 +15,5 @@ outputs:
   error:
     description: 'Return an error message, or no return value if there is no error.'
 runs:
-  using: 'node16'
-  main: 'index.js'
+  using: 'docker'
+  image: 'Dockerfile'
