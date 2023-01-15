@@ -19,7 +19,7 @@ jobs:
       - name: Test code
         id: run-tests
         run: npm run test
-  matchString:
+  matchString-js:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
@@ -27,6 +27,22 @@ jobs:
       - name: Grep text from wiki
         id: match
         uses: ./.github/actions/web-grep-js
+        with:
+          url: 'https://en.wikipedia.org/wiki/ISBN'
+          match-string: '[0-9]{3}-[0-9]{1}-[0-9]{2}-[0-9]{6}-[0-9]{1}'
+      - name: Output Result
+        run: |
+          echo "IsMatch = ${{ steps.match.outputs.is-match }}"
+          echo "Resut = ${{ steps.match.outputs.result }}"
+          echo "Error = ${{ steps.match.outputs.error }}"
+  matchString-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Grep text from wiki
+        id: match
+        uses: ./.github/actions/web-grep-docker
         with:
           url: 'https://en.wikipedia.org/wiki/ISBN'
           match-string: '[0-9]{3}-[0-9]{1}-[0-9]{2}-[0-9]{6}-[0-9]{1}'

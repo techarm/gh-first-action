@@ -2,8 +2,8 @@ const https = require('https');
 const core = require('@actions/core');
 
 function run() {
-  const url = core.getInput('url');
-  const matchString = core.getInput('match-string');
+  const url = core.getInput('url', { required: true });
+  const matchString = core.getInput('match-string', { required: true });
 
   core.notice(`[GET]: ${url}`);
 
