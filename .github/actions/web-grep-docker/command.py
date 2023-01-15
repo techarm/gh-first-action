@@ -13,7 +13,7 @@ def run():
         print(f'result={match_list}', file=gh_output)
 
     except Exception as e:
-        print(f"::set-output name=error::{e}")
+        print(f'error={e}', file=gh_output)
 
 if __name__ == '__main__':
     run()
