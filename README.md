@@ -552,3 +552,27 @@ jobs:
       - name: Output information
         run: echo "deploying..."
 ```
+
+## 9. Custom Actions
+### Types of actions
+|Type             |Operating System.    |
+|-----------------|---------------------|
+|Docker container |Linux                |
+|Javascript       |Linux, masOS, Windows|
+|Composite Actions|Linux, masOS, Windows|
+> Note: Docker container actions are slower than JavaScript actions
+
+### Composite Actions
+- Create custom Actions by combining multiple Steps
+- Composite Actions are like "Workflow Excerpts"
+- Use Actions (via `uses`) and Commands (via `run`) as needed
+
+### JavaScript & Docker Actions
+- Write Action logic in JavaScript (NodeJS) with [@actions/toolkit](https://github.com/actions/toolkit)
+- Alternatively: Create your own Action environment with Docker
+- Either way: Use inputs, set outputs and perform any logic
+
+### Example
+- Composite: https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/cached-deps
+- JavaScript: https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/web-grep-js
+- Docker: https://github.com/techarm/github-actions/tree/custom-actions/.github/actions/web-grep-docker 
