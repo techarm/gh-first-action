@@ -348,7 +348,7 @@ jobs:
 ```
 
 ## 8. Resuable Workflows
-- Workflows can be reused via the `workflow_call` evnet
+- Workflows can be reused via the `workflow_call` event
 - Reuse any logic (as many Jobs & Steps as needs)
 - Work with `inputs`, `outpus` and `secrets` as required
 
